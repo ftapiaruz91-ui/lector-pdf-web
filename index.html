@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lector de PDF con notas — Lee, resalta y organiza</title>
+<meta name="description" content="Lee PDFs, resalta, toma notas y organiza todo en carpetas con salto a la ubicación exacta. Gratis, en tu PC y tu tablet." />
+<link rel="icon" href="icon.png" />
+<style>
+  :root{
+    --azul:#2563eb; --azul2:#1e40af; --tinta:#0f172a; --gris:#64748b;
+    --suave:#f1f5f9; --borde:#e2e8f0; --blanco:#fff;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--tinta);line-height:1.6;background:var(--blanco)}
+  a{color:inherit;text-decoration:none}
+  .contenedor{max-width:1080px;margin:0 auto;padding:0 22px}
+
+  /* Barra superior */
+  header{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.9);backdrop-filter:blur(8px);border-bottom:1px solid var(--borde)}
+  nav{display:flex;align-items:center;gap:12px;height:64px}
+  nav img{width:34px;height:34px;border-radius:8px}
+  nav .marca{font-weight:800;font-size:17px}
+  nav .sp{flex:1}
+  .btn{display:inline-block;background:var(--azul);color:#fff;padding:11px 20px;border-radius:10px;font-weight:600;transition:.15s;border:none;cursor:pointer}
+  .btn:hover{background:var(--azul2)}
+  .btn.ghost{background:transparent;color:var(--azul);border:1.5px solid var(--azul)}
+  .btn.ghost:hover{background:#eff6ff}
+
+  /* Hero */
+  .hero{background:linear-gradient(160deg,#eff6ff 0%,#fff 55%);padding:70px 0 60px}
+  .hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center}
+  .hero h1{font-size:46px;line-height:1.1;letter-spacing:-.5px}
+  .hero h1 span{color:var(--azul)}
+  .hero p.sub{font-size:19px;color:var(--gris);margin:18px 0 28px;max-width:520px}
+  .cta{display:flex;gap:12px;flex-wrap:wrap}
+  .badges{margin-top:22px;display:flex;gap:18px;flex-wrap:wrap;color:var(--gris);font-size:14px}
+  .badges b{color:var(--tinta)}
+
+  /* Mockup */
+  .mock{background:#334155;border-radius:16px;padding:10px;box-shadow:0 30px 60px -20px rgba(37,99,235,.45)}
+  .mock-bar{display:flex;gap:6px;padding:8px 10px}
+  .mock-bar i{width:11px;height:11px;border-radius:50%;background:#64748b}
+  .mock-body{background:#fff;border-radius:10px;display:grid;grid-template-columns:38% 62%;overflow:hidden;min-height:300px}
+  .mock-side{background:#f8fafc;border-right:1px solid var(--borde);padding:12px;font-size:12px}
+  .mock-side .tab{color:var(--azul);font-weight:700;border-bottom:2px solid var(--azul);display:inline-block;padding-bottom:4px;margin-bottom:10px}
+  .mock-fold{display:flex;align-items:center;gap:6px;font-weight:600;margin:6px 0}
+  .mock-note{background:#fff;border:1px solid var(--borde);border-left:4px solid #f59e0b;border-radius:8px;padding:8px;margin:6px 0 6px 12px;font-size:11px;color:#475569}
+  .mock-doc{padding:16px;font-size:11px;color:#334155}
+  .mock-doc .hl{background:#fde68a}
+  .mock-doc h4{font-size:12px;margin-bottom:6px}
+
+  /* Secciones */
+  section.bloque{padding:64px 0}
+  .titulo{text-align:center;max-width:640px;margin:0 auto 44px}
+  .titulo h2{font-size:33px;letter-spacing:-.3px}
+  .titulo p{color:var(--gris);font-size:17px;margin-top:10px}
+
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .card{background:var(--blanco);border:1px solid var(--borde);border-radius:14px;padding:24px;transition:.15s}
+  .card:hover{box-shadow:0 12px 30px -12px rgba(15,23,42,.18);transform:translateY(-2px)}
+  .card .ico{font-size:30px}
+  .card h3{margin:12px 0 6px;font-size:18px}
+  .card p{color:var(--gris);font-size:15px}
+
+  /* Pasos */
+  .pasos{background:var(--suave)}
+  .pasos-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+  .paso{background:#fff;border:1px solid var(--borde);border-radius:14px;padding:26px}
+  .paso h3{display:flex;align-items:center;gap:10px;font-size:19px;margin-bottom:14px}
+  .paso ol{margin-left:20px;color:#334155}
+  .paso li{margin:8px 0}
+  .paso .disp{font-size:22px}
+
+  /* CTA final */
+  .final{text-align:center;background:linear-gradient(160deg,var(--azul),var(--azul2));color:#fff;border-radius:20px;padding:54px 24px;margin:20px auto}
+  .final h2{font-size:32px}
+  .final p{opacity:.92;font-size:18px;margin:12px 0 26px}
+  .final .btn{background:#fff;color:var(--azul)}
+  .final .btn:hover{background:#eff6ff}
+
+  footer{padding:34px 0;color:var(--gris);font-size:14px;text-align:center;border-top:1px solid var(--borde)}
+
+  @media(max-width:820px){
+    .hero-grid{grid-template-columns:1fr;gap:28px}
+    .hero h1{font-size:34px}
+    .grid{grid-template-columns:1fr}
+    .pasos-grid{grid-template-columns:1fr}
+    nav .marca{font-size:15px}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="contenedor">
+    <nav>
+      <img src="icon.png" alt="Ícono" />
+      <span class="marca">Lector de PDF con notas</span>
+      <span class="sp"></span>
+      <a class="btn" href="https://ftapiaruz91-ui.github.io/lector-pdf/" target="_blank">Abrir la app</a>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="contenedor hero-grid">
+    <div>
+      <h1>Lee tus PDFs y <span>guarda lo importante</span>, sin perder el hilo.</h1>
+      <p class="sub">Resalta, toma notas y pon marcadores. Organízalos en carpetas y vuelve al punto exacto del documento con un solo clic. Ideal para licitaciones, informes y documentos largos.</p>
+      <div class="cta">
+        <a class="btn" href="https://ftapiaruz91-ui.github.io/lector-pdf/" target="_blank">🚀 Abrir la app gratis</a>
+        <a class="btn ghost" href="#instalar">📱 Cómo instalarla</a>
+      </div>
+      <div class="badges">
+        <span>✅ <b>Gratis</b></span>
+        <span>💻 <b>PC y tablet</b></span>
+        <span>🔒 <b>Tus PDFs no se suben</b></span>
+        <span>📶 <b>Funciona sin conexión</b></span>
+      </div>
+    </div>
+
+    <!-- Mockup de la app -->
+    <div class="mock">
+      <div class="mock-bar"><i></i><i></i><i></i></div>
+      <div class="mock-body">
+        <div class="mock-side">
+          <span class="tab">Guardados</span>
+          <div class="mock-fold">📁 Licitación A</div>
+          <div class="mock-fold" style="margin-left:12px">📁 Plazos</div>
+          <div class="mock-note">🖍️ pág. 3 — “…plazo de entrega de 45 días…”</div>
+          <div class="mock-fold">📁 Riesgos</div>
+          <div class="mock-note">📝 pág. 7 — Revisar boleta de garantía</div>
+        </div>
+        <div class="mock-doc">
+          <h4>BASES ADMINISTRATIVAS</h4>
+          <p>Para la Licitación Pública, el oferente deberá presentar
+          <span class="hl">los antecedentes técnicos en un plazo de 45 días</span>
+          contados desde la publicación, según lo dispuesto en el
+          artículo 16° del reglamento vigente…</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FUNCIONES -->
+<section class="bloque">
+  <div class="contenedor">
+    <div class="titulo">
+      <h2>Todo lo que necesitas para estudiar un documento</h2>
+      <p>Pensado para quien trabaja con documentos extensos y necesita encontrar rápido lo importante.</p>
+    </div>
+    <div class="grid">
+      <div class="card"><div class="ico">🖍️</div><h3>Resaltar texto</h3><p>Selecciona y marca lo relevante. Queda guardado y a la vista.</p></div>
+      <div class="card"><div class="ico">📝</div><h3>Notas en un punto</h3><p>Deja comentarios exactamente donde los necesitas.</p></div>
+      <div class="card"><div class="ico">🔖</div><h3>Marcadores de página</h3><p>Guarda páginas clave con un nombre para volver rápido.</p></div>
+      <div class="card"><div class="ico">📌</div><h3>Salto a la ubicación</h3><p>Toca lo que guardaste y te lleva al punto exacto del PDF.</p></div>
+      <div class="card"><div class="ico">📁</div><h3>Carpetas y subcarpetas</h3><p>Separa por tema y arrastra tus notas para ordenarlas.</p></div>
+      <div class="card"><div class="ico">💾</div><h3>Exportar y respaldar</h3><p>Guarda tus notas en un archivo y llévalas a otro equipo.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- INSTALAR -->
+<section class="bloque pasos" id="instalar">
+  <div class="contenedor">
+    <div class="titulo">
+      <h2>Úsala en segundos</h2>
+      <p>No necesita instalación complicada. Ábrela desde el navegador o instálala como app.</p>
+    </div>
+    <div class="pasos-grid">
+      <div class="paso">
+        <h3><span class="disp">💻</span> En tu computador</h3>
+        <ol>
+          <li>Entra a la app desde el botón de arriba.</li>
+          <li>Arrastra un PDF o usa “Abrir PDF”.</li>
+          <li>¡Listo! Resalta y toma notas.</li>
+        </ol>
+      </div>
+      <div class="paso">
+        <h3><span class="disp">📱</span> En tu tablet o celular (Android)</h3>
+        <ol>
+          <li>Abre la app en <b>Chrome</b>.</li>
+          <li>Menú ⋮ → <b>“Instalar aplicación”</b>.</li>
+          <li>Se agrega el ícono a tu pantalla de inicio.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="bloque">
+  <div class="contenedor">
+    <div class="final">
+      <h2>Empieza a leer de forma más ordenada</h2>
+      <p>Gratis, sin cuentas y sin subir tus documentos a ningún lado.</p>
+      <a class="btn" href="https://ftapiaruz91-ui.github.io/lector-pdf/" target="_blank">🚀 Abrir la app</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="contenedor">
+    Lector de PDF con notas · Hecho para leer y organizar documentos · Tus archivos quedan en tu dispositivo.
+  </div>
+</footer>
+
+</body>
+</html>
