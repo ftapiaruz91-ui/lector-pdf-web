@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Tutorial — Lector de PDF con notas</title>
-<meta name="description" content="Mini tutorial ilustrado: aprende a resaltar, tomar notas, marcar páginas y organizar en carpetas en menos de 2 minutos." />
+<meta name="description" content="Mini tutorial ilustrado y animado: aprende a resaltar, tomar notas, marcar páginas y organizar en carpetas en menos de 2 minutos." />
 <link rel="icon" href="icon.png" />
 <style>
   :root{--azul:#2563eb;--azul2:#1e40af;--tinta:#0f172a;--gris:#64748b;--suave:#f1f5f9;--borde:#e2e8f0;--ambar:#f59e0b}
@@ -33,7 +33,7 @@
   .paso h2{font-size:25px;letter-spacing:-.2px}
   .paso p{color:var(--gris);font-size:16px;margin-top:10px}
   .paso .tip{margin-top:12px;background:#eff6ff;border-left:4px solid var(--azul);padding:9px 12px;border-radius:0 8px 8px 0;font-size:14px;color:#334155}
-  .dibujo{background:var(--suave);border:1px solid var(--borde);border-radius:16px;padding:18px;display:flex;justify-content:center}
+  .dibujo{background:var(--suave);border:1px solid var(--borde);border-radius:16px;padding:18px;display:flex;justify-content:center;overflow:hidden}
   .dibujo svg{width:100%;height:auto;max-width:360px}
 
   .final{text-align:center;background:linear-gradient(160deg,var(--azul),var(--azul2));color:#fff;border-radius:20px;padding:48px 24px;margin:40px auto}
@@ -46,6 +46,28 @@
     .paso:nth-child(even) .dibujo{order:0}
     .intro h1{font-size:29px}
   }
+
+  /* ===== Animaciones (solo si el usuario no pidió reducir movimiento) ===== */
+  @media (prefers-reduced-motion: no-preference){
+    .anim-bob{animation:bob 2.6s ease-in-out infinite}
+    .anim-arrow{animation:arrow 1.3s ease-in-out infinite}
+    .anim-sweep{animation:sweep 3.2s ease-in-out infinite}
+    .anim-pin{animation:pin 2.8s ease-in-out infinite}
+    .anim-pop{animation:pop 2.8s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+    .anim-ribbon{animation:ribbon 2.8s ease-in-out infinite}
+    .anim-slide{animation:slide 3.4s ease-in-out infinite}
+    .anim-draw{stroke-dasharray:140;stroke-dashoffset:140;animation:draw 3s ease-in-out infinite}
+    .anim-flash{animation:flash 3s ease-in-out infinite}
+  }
+  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(9px)}}
+  @keyframes arrow{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+  @keyframes sweep{0%,8%{width:0}55%,100%{width:196px}}
+  @keyframes pin{0%{transform:translateY(-26px);opacity:0}35%{opacity:1}55%{transform:translateY(3px)}70%,100%{transform:translateY(0);opacity:1}}
+  @keyframes pop{0%,22%{transform:scale(0);opacity:0}48%{transform:scale(1.06)}58%,100%{transform:scale(1);opacity:1}}
+  @keyframes ribbon{0%{transform:translateY(-44px)}55%{transform:translateY(3px)}70%,100%{transform:translateY(0)}}
+  @keyframes slide{0%,18%{transform:translate(0,0)}72%,100%{transform:translate(0,50px)}}
+  @keyframes draw{0%,10%{stroke-dashoffset:140}70%,100%{stroke-dashoffset:0}}
+  @keyframes flash{0%,45%,100%{opacity:1}62%{opacity:.15}}
 </style>
 </head>
 <body>
@@ -61,7 +83,7 @@
 <div class="intro">
   <div class="contenedor">
     <h1>Aprende a usarla en <span>2 minutos</span></h1>
-    <p>Seis pasos simples con dibujos. ¡Sin complicaciones!</p>
+    <p>Seis pasos simples con dibujos animados. ¡Sin complicaciones!</p>
   </div>
 </div>
 
@@ -78,13 +100,13 @@
     <div class="dibujo">
       <svg viewBox="0 0 300 200">
         <rect x="20" y="30" width="260" height="150" rx="12" fill="#fff" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="8 6"/>
-        <g transform="translate(115 60)">
+        <g transform="translate(115 58)"><g class="anim-bob">
           <rect x="0" y="0" width="70" height="86" rx="8" fill="#fff" stroke="#2563eb" stroke-width="3"/>
           <path d="M50 0 L70 20 L50 20 Z" fill="#bfdbfe"/>
           <text x="35" y="55" font-size="18" font-weight="700" fill="#2563eb" text-anchor="middle">PDF</text>
-        </g>
-        <path d="M150 158 l0 -22 m-8 12 l8 10 l8 -10" stroke="#16a34a" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-        <text x="150" y="192" font-size="13" fill="#16a34a" text-anchor="middle" font-weight="700">suelta aquí</text>
+        </g></g>
+        <path class="anim-arrow" d="M150 160 l0 -20 m-8 12 l8 10 l8 -10" stroke="#16a34a" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <text x="150" y="193" font-size="13" fill="#16a34a" text-anchor="middle" font-weight="700">suelta aquí</text>
       </svg>
     </div>
   </div>
@@ -95,15 +117,13 @@
       <svg viewBox="0 0 300 200">
         <rect x="30" y="24" width="240" height="152" rx="10" fill="#fff" stroke="#e2e8f0" stroke-width="2"/>
         <rect x="52" y="50" width="180" height="10" rx="5" fill="#cbd5e1"/>
-        <rect x="52" y="74" width="196" height="14" rx="6" fill="#fde68a"/>
+        <rect class="anim-sweep" x="52" y="74" width="196" height="14" rx="6" fill="#fde68a"/>
         <rect x="52" y="76" width="150" height="10" rx="5" fill="#cbd5e1"/>
         <rect x="52" y="100" width="140" height="10" rx="5" fill="#cbd5e1"/>
         <rect x="52" y="122" width="170" height="10" rx="5" fill="#cbd5e1"/>
-        <!-- marcador/pen -->
-        <g transform="rotate(35 210 150)">
-          <rect x="196" y="96" width="14" height="60" rx="4" fill="#f59e0b"/>
-          <rect x="196" y="150" width="14" height="12" fill="#b45309"/>
-          <path d="M196 162 l7 10 l7 -10 Z" fill="#334155"/>
+        <g transform="translate(230 60)">
+          <rect x="-7" y="0" width="14" height="60" rx="4" fill="#f59e0b" transform="rotate(35)"/>
+          <path d="M0 62 l6 10 l6 -10 Z" fill="#334155"/>
         </g>
       </svg>
     </div>
@@ -128,19 +148,17 @@
         <rect x="52" y="52" width="150" height="9" rx="4" fill="#cbd5e1"/>
         <rect x="52" y="72" width="180" height="9" rx="4" fill="#cbd5e1"/>
         <rect x="52" y="92" width="120" height="9" rx="4" fill="#cbd5e1"/>
-        <!-- pin -->
-        <g transform="translate(196 96)">
-          <path d="M0 0 C-16 0 -16 -22 0 -22 C16 -22 16 0 0 0 Z" fill="#ef4444"/>
-          <circle cx="0" cy="-11" r="5" fill="#fff"/>
-          <path d="M0 0 L0 16" stroke="#ef4444" stroke-width="3"/>
-        </g>
-        <!-- globo de nota -->
-        <g transform="translate(150 118)">
-          <rect x="0" y="0" width="120" height="46" rx="10" fill="#1e293b"/>
+        <g transform="translate(196 100)"><g class="anim-pin">
+          <path d="M0 -16 C-16 -16 -16 -38 0 -38 C16 -38 16 -16 0 -16 Z" fill="#ef4444"/>
+          <circle cx="0" cy="-27" r="5" fill="#fff"/>
+          <path d="M0 -16 L0 2" stroke="#ef4444" stroke-width="3"/>
+        </g></g>
+        <g transform="translate(150 118)"><g class="anim-pop">
+          <rect x="0" y="0" width="122" height="46" rx="10" fill="#1e293b"/>
           <path d="M18 46 l-10 14 l24 -14 Z" fill="#1e293b"/>
           <text x="14" y="20" font-size="11" fill="#fff">Revisar este</text>
           <text x="14" y="35" font-size="11" fill="#fff">punto ✍️</text>
-        </g>
+        </g></g>
       </svg>
     </div>
   </div>
@@ -154,8 +172,7 @@
         <rect x="82" y="78" width="150" height="9" rx="4" fill="#cbd5e1"/>
         <rect x="82" y="100" width="110" height="9" rx="4" fill="#cbd5e1"/>
         <rect x="82" y="122" width="140" height="9" rx="4" fill="#cbd5e1"/>
-        <!-- cinta marcador -->
-        <path d="M180 20 h34 v54 l-17 -14 l-17 14 Z" fill="#2563eb"/>
+        <g class="anim-ribbon"><path d="M180 20 h34 v54 l-17 -14 l-17 14 Z" fill="#2563eb"/></g>
       </svg>
     </div>
     <div class="texto">
@@ -177,16 +194,15 @@
       <svg viewBox="0 0 300 200">
         <rect x="30" y="24" width="240" height="152" rx="10" fill="#fff" stroke="#e2e8f0" stroke-width="2"/>
         <g font-size="14" fill="#334155" font-weight="600">
-          <text x="54" y="60">📁 Proyecto A</text>
-          <text x="78" y="88">📁 Plazos</text>
-          <rect x="96" y="98" width="150" height="20" rx="6" fill="#fff" stroke="#e2e8f0"/>
-          <rect x="96" y="98" width="4" height="20" rx="2" fill="#f59e0b"/>
-          <text x="108" y="112" font-size="11" fill="#64748b" font-weight="400">🖍️ 45 días…</text>
-          <text x="78" y="140">📁 Riesgos</text>
-          <text x="54" y="166">📁 Proyecto B</text>
+          <text x="54" y="58">📁 Plazos</text>
+          <text x="54" y="150">📁 Riesgos</text>
         </g>
-        <path d="M235 108 c26 0 26 34 -2 34" stroke="#2563eb" stroke-width="2.5" fill="none" stroke-dasharray="5 4"/>
-        <path d="M233 148 l4 -8 l6 6 Z" fill="#2563eb"/>
+        <!-- nota que se mueve de una carpeta a otra -->
+        <g class="anim-slide">
+          <rect x="86" y="70" width="150" height="22" rx="6" fill="#fff" stroke="#e2e8f0"/>
+          <rect x="86" y="70" width="4" height="22" rx="2" fill="#f59e0b"/>
+          <text x="98" y="85" font-size="11" fill="#64748b" font-weight="400">🖍️ 45 días…</text>
+        </g>
       </svg>
     </div>
   </div>
@@ -195,20 +211,17 @@
   <div class="paso">
     <div class="dibujo">
       <svg viewBox="0 0 300 200">
-        <!-- panel guardados -->
         <rect x="20" y="30" width="110" height="140" rx="10" fill="#f8fafc" stroke="#e2e8f0" stroke-width="2"/>
         <rect x="32" y="52" width="86" height="34" rx="7" fill="#fff" stroke="#e2e8f0"/>
         <rect x="32" y="52" width="4" height="34" rx="2" fill="#f59e0b"/>
         <text x="44" y="66" font-size="9" fill="#334155">🖍️ pág. 3</text>
         <text x="44" y="79" font-size="9" fill="#64748b">45 días…</text>
-        <!-- documento -->
         <rect x="170" y="30" width="110" height="140" rx="10" fill="#fff" stroke="#e2e8f0" stroke-width="2"/>
         <rect x="186" y="52" width="78" height="7" rx="3" fill="#cbd5e1"/>
-        <rect x="186" y="98" width="78" height="12" rx="4" fill="#fde68a"/>
+        <rect class="anim-flash" x="186" y="98" width="78" height="12" rx="4" fill="#fde68a"/>
         <rect x="186" y="118" width="60" height="7" rx="3" fill="#cbd5e1"/>
-        <!-- flecha salto -->
-        <path d="M120 69 C150 69 150 104 182 104" stroke="#2563eb" stroke-width="3" fill="none"/>
-        <path d="M182 104 l-12 -6 l2 12 Z" fill="#2563eb"/>
+        <path class="anim-draw" d="M120 69 C150 69 150 104 178 104" stroke="#2563eb" stroke-width="3" fill="none"/>
+        <path d="M178 104 l-12 -6 l2 12 Z" fill="#2563eb"/>
       </svg>
     </div>
     <div class="texto">
